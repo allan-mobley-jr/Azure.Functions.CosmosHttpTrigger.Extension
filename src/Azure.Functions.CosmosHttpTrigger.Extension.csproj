@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <SignAssembly>true</SignAssembly>
+    <Company>Mobsites</Company>
+    <Authors>Allan Mobley</Authors>
+    <Copyright>© 2020 Mobsites</Copyright>
+    <Description>Stream data to and from Azure Cosmos using this http trigger extension for Azure Functions.</Description>
+    <PackageId>Mobsites.Azure.Functions.CosmosHttpTrigger.Extension</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>mobsites-logo.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageReleaseNotes>First preview release.</PackageReleaseNotes>
+    <PackageVersion>1.0.0-preview1</PackageVersion>
+    <PackageTags>azure;functions;serverless;cosmos;bindigs;api:http;trigger;</PackageTags>
+    <PackageProjectUrl>https://github.com/allan-mobley-jr/Azure.Functions.CosmosHttpTrigger.Extension</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/allan-mobley-jr/Azure.Functions.CosmosHttpTrigger.Extension</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Cosmos" Version="4.0.0-preview3" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.WebApiCompatShim" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
+    <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.14" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="assets\mobsites-logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

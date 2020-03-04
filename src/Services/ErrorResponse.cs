@@ -6,9 +6,9 @@ using System.Net.Http;
 
 namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
 {
-    public static partial class Responses
+    public static partial class CosmosService
     {
-        public static HttpResponseMessage ErrorResponse(string message) => new HttpResponseMessage
+        internal static HttpResponseMessage ErrorResponse(string message) => new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.BadRequest,
             Content = new StringContent(message)

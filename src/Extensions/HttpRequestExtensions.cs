@@ -14,7 +14,12 @@ namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
         {
             try
             {
-                int parts = ParseRoute(
+                if (request == null)
+                {
+                    throw new ArgumentNullException(nameof(request));
+                }
+
+                int parts = Helpers.ParseRoute(
                     request.Path,
                     out string database,
                     out string container,
@@ -24,62 +29,20 @@ namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
 
                 return (request.Method.ToLowerInvariant()) switch
                 {
-                    "get" => await Responses.CreateItemStreamAsync(database, container, partitionKey, request.Body),
+                    "get" => await CosmosService.ReadItemStreamAsync(database, container, partitionKey, id),
                     "post" => parts == 5
-                        ? await Responses.CreateItemStreamAsync(database, container, partitionKey, request.Body)
-                        : await Responses.GetItemQueryStreamIterator(database, container, partitionKey, request.Body, request.Headers["Continuation-Token"], maxItemCount),
+                        ? await CosmosService.CreateItemStreamAsync(database, container, partitionKey, request.Body)
+                        : await CosmosService.GetItemQueryStreamIterator(database, container, partitionKey, request.Body, request.Headers["Continuation-Token"], maxItemCount),
                     "put" => parts == 5
-                        ? await Responses.CreateItemStreamAsync(database, container, partitionKey, request.Body)
-                        : await Responses.CreateItemStreamAsync(database, container, partitionKey, request.Body),
-                    "delete" => await Responses.DeleteItemStreamAsync(database, container, partitionKey, id),
-                    _ => Responses.ErrorResponse("Request method did not match one of the Cosmos API method signatures.")
+                        ? await CosmosService.UpsertItemStreamAsync(database, container, partitionKey, request.Body)
+                        : await CosmosService.ReplaceItemStreamAsync(database, container, partitionKey, id, request.Body),
+                    "delete" => await CosmosService.DeleteItemStreamAsync(database, container, partitionKey, id),
+                    _ => CosmosService.ErrorResponse("Request method did not match one of the Cosmos API method signatures.")
                 };
             }
             catch (Exception ex)
             {
-                return Responses.ErrorResponse(ex.Message);
-            }
-            
-        }
-
-        private static int ParseRoute(
-            string route,
-            out string database,
-            out string container,
-            out string partitionKey,
-            out string id,
-            out int maxItemCount)
-        {
-            try
-            {
-                var dirs = route?.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-                if ((dirs?.Length ?? 0) < 5)
-                    throw new Exception($"'{route}' must at the very least be a valid Cosmos API route beginning with the form '{Constants.CosmosAPIRouteForm}'.");
-
-                if ($"{dirs[0].ToLowerInvariant()}/{dirs[1].ToLowerInvariant()}" != Constants.CosmosAPIRoutePrefix)
-                    throw new Exception($"'{route}' must begin with '{Constants.CosmosAPIRoutePrefix}'.");
-
-                database = dirs[2];
-                container = dirs[3];
-                partitionKey = dirs[4];
-                id = dirs.Length == 6 ? dirs[5] : null;
-                maxItemCount = -1;
-
-                if (dirs.Length == 7)
-                {
-                    if (!int.TryParse(dirs[6], out maxItemCount))
-                    {
-                        maxItemCount = -1;
-                    }
-                }
-
-                return dirs.Length;
-            }
-            catch (Exception ex)
-            {
-                // Rethrow it.
-                throw ex;
+                return CosmosService.ErrorResponse(ex.Message);
             }
         }
     }

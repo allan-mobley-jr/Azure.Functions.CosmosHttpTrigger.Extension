@@ -7,10 +7,15 @@ using System.Net.Http;
 
 namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
 {
-    public static class AzureResponseExtensions
+    internal static class AzureResponseExtensions
     {
-        public static HttpResponseMessage ConvertHttpResponseMessage(this Response response)
+        internal static HttpResponseMessage ConvertHttpResponseMessage(this Response response)
         {
+            if (response == null)
+            {
+                return CosmosService.ErrorResponse("There was no response from Azure Cosmos.");
+            }
+
             // Would be really nice if we could simply pass the Cosmos response directly back,
             // but, alas, we must reconstruct a return response.
             var result = new HttpResponseMessage();

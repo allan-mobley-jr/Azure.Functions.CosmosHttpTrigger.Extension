@@ -1,4 +1,3 @@
-using System;
 // Copyright (c) 2020 Allan Mobley. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
@@ -10,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
 {
-    public static partial class Responses
+    public static partial class CosmosService
     {
-        public static async Task<HttpResponseMessage> GetItemQueryStreamIterator(
+        internal static async Task<HttpResponseMessage> GetItemQueryStreamIterator(
             string database,
             string container,
             string partitionKey,
@@ -53,8 +52,8 @@ namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
                 return response.ConvertHttpResponseMessage();
             }
 
-            // Should never get here
-            throw new Exception("Could find anything.");
+            // Should never get here, but...
+            return ErrorResponse("The query did not generate a response from Azure Cosmos.");
         }
     }
 }

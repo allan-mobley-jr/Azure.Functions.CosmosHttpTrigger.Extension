@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
 {
-    public static partial class Responses
+    public static partial class CosmosService
     {
-        public static async Task<HttpResponseMessage> DeleteItemStreamAsync(string database,
+        internal static async Task<HttpResponseMessage> ReadItemStreamAsync(string database,
             string container,
             string partitionKey,
             string id) => (await GetContainer(database, container)
-                .DeleteItemStreamAsync(id, new PartitionKey(partitionKey)))
+                .ReadItemStreamAsync(id, new PartitionKey(partitionKey)))
                 .ConvertHttpResponseMessage();
     }
 }

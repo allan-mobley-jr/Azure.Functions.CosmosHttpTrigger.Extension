@@ -6,7 +6,7 @@ namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
     public static class Constants
     {
         public const string DefaultConnectionStringName = "Cosmos";
-        public const string CosmosAPIRouteForm = "api/cosmos/{database}/{container}/{partitionKey}";
-        public const string CosmosAPIRoutePrefix = "api/cosmos";
+        public const string CosmosAPIRouteForm = "cosmos/{database}/{container}/{partitionKey}";
+        public const string CosmosAPIRoutePrefix = "cosmos";
     }
 }

@@ -41,7 +41,7 @@ namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
                 throw new InvalidOperationException(error);
             }
 
-            Responses.CosmosClient ??= new CosmosClient(options.ConnectionString, BuildClientOptions(options));
+            CosmosService.Client ??= new CosmosClient(options.ConnectionString, BuildClientOptions(options));
         }
 
         private CosmosClientOptions BuildClientOptions(CosmosOptions options)

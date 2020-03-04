@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension.Sample
 {
-    public static class Test
+    public static class CreateItemStreamAsync
     {
         [FunctionName("CreateItemStreamAsync")]
         public static async Task<HttpResponseMessage> Run(

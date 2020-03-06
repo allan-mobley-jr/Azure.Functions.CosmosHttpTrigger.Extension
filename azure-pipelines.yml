@@ -1,37 +1,58 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+# Copyright (c) 2020 Allan Mobley. All rights reserved.
+# Licensed under the MIT License. See License.txt in the project root for license information.
 
 trigger:
-- master
+  - master
+  
+name: Publish to Nuget
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: ubuntu-latest
 
 variables:
   configuration: 'Release'
   projectPath: 'src/Azure.Functions.CosmosHttpTrigger.Extension.csproj'
 
-steps:
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      configuration: $(configuration)
-      projects: $(projectPath)
+stages:
 
-  - task: DotNetCoreCLI@2
-    displayName: Pack
-    inputs:
-      command: pack
-      configuration: $(configuration)
-      packagesToPack: $(projectPath)
-      nobuild: true
+  - stage: Build
+    displayName: Build Stage
+    jobs:
+      - job: Build
+        displayName: Build
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: Build
+            inputs:
+              command: build
+              configuration: $(configuration)
+              projects: $(projectPath)
+  
+  - stage: Pack
+    displayName: Pack Stage
+    dependsOn: Build
+    jobs:
+      - job: Pack
+        displayName: Pack
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: Pack
+            inputs:
+              command: pack
+              configuration: $(configuration)
+              packagesToPack: $(projectPath)
+              nobuild: true
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish'
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
+  - stage: Publish
+    displayName: Publish Stage
+    dependsOn: Pack
+    jobs:
+      - job: Publish
+        displayName: Publish
+        steps:
+          - task: NuGetCommand@2
+            inputs:
+              command: 'push'
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+              nuGetFeedType: 'external'
+              publishFeedCredentials: 'Mobsites Nuget'

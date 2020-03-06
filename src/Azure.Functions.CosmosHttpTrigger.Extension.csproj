@@ -10,15 +10,15 @@
     <Description>Stream data to and from Azure Cosmos using this http trigger extension for Azure Functions.</Description>
     <PackageId>Mobsites.Azure.Functions.CosmosHttpTrigger.Extension</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>mobsites-logo.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>First preview release.</PackageReleaseNotes>
-    <PackageVersion>1.0.0-preview1</PackageVersion>
+    <PackageReleaseNotes>First official release.</PackageReleaseNotes>
+    <PackageVersion>1.0.0</PackageVersion>
     <PackageTags>azure;functions;serverless;cosmos;bindigs;api:http;trigger;</PackageTags>
-    <PackageProjectUrl>https://github.com/allan-mobley-jr/Azure.Functions.CosmosHttpTrigger.Extension</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Mobsites/Azure.Functions.CosmosHttpTrigger.Extension</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/allan-mobley-jr/Azure.Functions.CosmosHttpTrigger.Extension</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Mobsites/Azure.Functions.CosmosHttpTrigger.Extension</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +29,13 @@
 
   <ItemGroup>
     <None Include="assets\mobsites-logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

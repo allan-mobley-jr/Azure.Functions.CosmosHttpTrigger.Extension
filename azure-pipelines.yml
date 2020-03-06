@@ -47,7 +47,7 @@ stages:
               command: pack
               configuration: $(configuration)
               packagesToPack: $(projectPath)
-              nobuild: true
+              nobuild: false
 
   - stage: Publish
     displayName: Publish Stage

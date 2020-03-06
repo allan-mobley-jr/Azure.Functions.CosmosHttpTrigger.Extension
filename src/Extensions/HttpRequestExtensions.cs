@@ -30,10 +30,10 @@ namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
                 return (request.Method.ToLowerInvariant()) switch
                 {
                     "get" => await CosmosService.ReadItemStreamAsync(database, container, partitionKey, id),
-                    "post" => parts == 5
+                    "post" => parts == 4
                         ? await CosmosService.CreateItemStreamAsync(database, container, partitionKey, request.Body)
                         : await CosmosService.GetItemQueryStreamIterator(database, container, partitionKey, request.Body, request.Headers["Continuation-Token"], maxItemCount),
-                    "put" => parts == 5
+                    "put" => parts == 4
                         ? await CosmosService.UpsertItemStreamAsync(database, container, partitionKey, request.Body)
                         : await CosmosService.ReplaceItemStreamAsync(database, container, partitionKey, id, request.Body),
                     "delete" => await CosmosService.DeleteItemStreamAsync(database, container, partitionKey, id),

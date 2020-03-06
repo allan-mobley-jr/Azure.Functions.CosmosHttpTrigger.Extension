@@ -54,7 +54,7 @@ namespace Mobsites.Azure.Functions.CosmosHttpTrigger.Extension
                     }
                 }
 
-                return dirs.Length;
+                return dirs.Length - indexOfCosmosAPIPrefix;
             }
             catch (Exception ex)
             {

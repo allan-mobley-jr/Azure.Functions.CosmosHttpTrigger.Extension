@@ -31,10 +31,9 @@ stages:
         displayName: Publish
         dependsOn: Build
         steps:
-          - task: NuGetCommand@2
+          - task: DotNetCoreCLI@2
             inputs:
-              command: push
-              feedsToUse: select
-              
-              nuGetFeedType: external
-              publishFeedCredentials: Mobsites Nuget
+              command: 'push'
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+              nuGetFeedType: 'external'
+              publishFeedCredentials: 'Mobsites Nuget'

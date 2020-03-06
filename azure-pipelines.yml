@@ -10,15 +10,28 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  buildConfiguration: 'Release'
-  workingDirectory: 'src/Azure.Functions.CosmosHttpTrigger.Extension.csproj'
+  configuration: 'Release'
+  projectPath: 'src/Azure.Functions.CosmosHttpTrigger.Extension.csproj'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration) $(workingDirectory)
-  displayName: 'Build'
-- task: NuGetCommand@2
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/src/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: 'a40b1c83-b98d-492b-9b61-218e14991f78'
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      configuration: $(configuration)
+      projects: $(projectPath)
+
+  - task: DotNetCoreCLI@2
+    displayName: Pack
+    inputs:
+      command: pack
+      configuration: $(configuration)
+      packagesToPack: $(projectPath)
+      nobuild: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'

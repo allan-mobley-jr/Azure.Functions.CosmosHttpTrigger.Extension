@@ -36,9 +36,11 @@ stages:
         displayName: Pack
         steps:
           - task: DotNetCoreCLI@2
+            displayName: Restore
             inputs:
-              command: 'restore'
-              feedsToUse: 'select'
+              command: restore
+              projects: $(projectPath)
+              feedsToUse: select
           - task: DotNetCoreCLI@2
             displayName: Pack
             inputs:

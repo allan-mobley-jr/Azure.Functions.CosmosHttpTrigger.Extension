@@ -5,9 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="./../src/Azure.Functions.CosmosHttpTrigger.Extension.csproj" />
+    <PackageReference Include="Mobsites.Azure.Functions.CosmosHttpTrigger.Extension" Version="1.0.0-preview1" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

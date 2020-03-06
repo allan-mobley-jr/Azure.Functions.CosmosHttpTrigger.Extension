@@ -28,10 +28,11 @@ steps:
       configuration: $(configuration)
       packagesToPack: $(projectPath)
       nobuild: true
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish'
+  
+  - task: NuGetCommand@2
+    displayName: 'NuGet push'
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+      nuGetFeedType: 'external'
+      publishFeedCredentials: 'Mobsites Nuget'

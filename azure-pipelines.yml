@@ -37,8 +37,8 @@ stages:
         steps:
           - task: NuGetCommand@2
             inputs:
-              command: 'push'
-              packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-              nuGetFeedType: 'external'
-              publishFeedCredentials: 'Mobsites Nuget'
+              command: push
+              packagesToPush: $(System.ArtifactsDirectory)/**/*.nupkg
+              nuGetFeedType: external
+              publishFeedCredentials: Mobsites Nuget
 

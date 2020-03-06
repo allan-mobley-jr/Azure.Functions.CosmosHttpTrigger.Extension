@@ -11,10 +11,11 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  workingDirectory: 'src/Azure.Functions.CosmosHttpTrigger.Extension.csproj'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- script: dotnet build --configuration $(buildConfiguration) $(workingDirectory)
+  displayName: 'Build'
 - task: NuGetCommand@2
   inputs:
     command: 'push'

@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Allan Mobley. All rights reserved.
+ # Copyright (c) 2020 Allan Mobley. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
 
 trigger:
@@ -27,31 +27,10 @@ stages:
               command: build
               configuration: $(configuration)
               projects: $(projectPath)
-  
-  - stage: Pack
-    displayName: Pack Stage
-    dependsOn: Build
-    jobs:
-      - job: Pack
-        displayName: Pack
-        steps:
-          - task: DotNetCoreCLI@2
-            displayName: Restore
-            inputs:
-              command: restore
-              projects: $(projectPath)
-              feedsToUse: select
-          - task: DotNetCoreCLI@2
-            displayName: Pack
-            inputs:
-              command: pack
-              configuration: $(configuration)
-              packagesToPack: $(projectPath)
-              nobuild: false
 
   - stage: Publish
     displayName: Publish Stage
-    dependsOn: Pack
+    dependsOn: Build
     jobs:
       - job: Publish
         displayName: Publish

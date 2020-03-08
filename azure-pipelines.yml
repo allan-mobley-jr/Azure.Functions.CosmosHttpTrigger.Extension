@@ -35,13 +35,21 @@ stages:
       - job: Pack
         displayName: Pack
         steps:
-          - task: DotNetCoreCLI@2
-            displayName: Pack
-            inputs:
-              command: pack
-              arguments: --configuration $(configuration)
-              packagesToPack: $(projectPath)
-              nobuild: true
+        - task: DotNetCoreCLI@2
+          displayName: Restore
+          inputs:
+            command: restore
+            projects: $(projectPath)
+            restoreArguments: --configuration $(configuration)
+            feedsToUse: select
+            
+        - task: DotNetCoreCLI@2
+          displayName: Pack
+          inputs:
+            command: pack
+            arguments: --configuration $(configuration)
+            packagesToPack: $(projectPath)
+            nobuild: true
 
   - stage: Push
     displayName: Push Stage

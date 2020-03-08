@@ -13,48 +13,28 @@ variables:
   configuration: 'Release'
   projectPath: 'src/Azure.Functions.CosmosHttpTrigger.Extension.csproj'
 
-stages:
+steps:
 
-  - stage: Build
-    displayName: Build Stage
-    jobs:
-      - job: Build
-        displayName: Build
-        steps:
-          - task: DotNetCoreCLI@2
-            displayName: Build
-            inputs:
-              command: build
-              configuration: --configuration $(configuration)
-              projects: $(projectPath)
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    configuration: --configuration $(configuration)
+    projects: $(projectPath)
 
-  - stage: Pack
-    displayName: Pack Stage
-    dependsOn: Build
-    jobs:
-      - job: Pack
-        displayName: Pack
-        steps:
-          - task: DotNetCoreCLI@2
-            displayName: Pack
-            inputs:
-              command: pack
-              arguments: --configuration $(configuration)
-              packagesToPack: $(projectPath)
-              nobuild: true
+- task: DotNetCoreCLI@2
+  displayName: Pack
+  inputs:
+    command: pack
+    arguments: --configuration $(configuration)
+    packagesToPack: $(projectPath)
+    nobuild: true
 
-  - stage: Push
-    displayName: Push Stage
-    dependsOn: Pack
-    jobs:
-      - job: Push
-        displayName: Push
-        steps:
-          - task: NuGetCommand@2
-            displayName: Push
-            inputs:
-              command: push
-              packagesToPush: src/bin/Release/*.nupkg
-              nuGetFeedType: external
-              publishFeedCredentials: Mobsites Nuget
-              allowPackageConflicts: true
+- task: NuGetCommand@2
+  displayName: Push
+  inputs:
+    command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: external
+    publishFeedCredentials: Mobsites Nuget
+    allowPackageConflicts: true

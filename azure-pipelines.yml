@@ -25,7 +25,7 @@ stages:
             displayName: Build
             inputs:
               command: build
-              configuration: $(configuration)
+              configuration: --configuration $(configuration)
               projects: $(projectPath)
       - job: Publish
         displayName: Publish

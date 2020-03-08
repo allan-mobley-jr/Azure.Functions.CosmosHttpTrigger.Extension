@@ -13,27 +13,16 @@ variables:
   configuration: 'Release'
   projectPath: 'src/Azure.Functions.CosmosHttpTrigger.Extension.csproj'
 
-stages:
-
-  - stage: Release
-    displayName: Release Stage
-    jobs:
-      - job: Build
-        displayName: Build
-        steps:
-          - task: DotNetCoreCLI@2
-            displayName: Build
-            inputs:
-              command: build
-              configuration: --configuration $(configuration)
-              projects: $(projectPath)
-      - job: Publish
-        displayName: Publish
-        dependsOn: Build
-        steps:
-          - task: DotNetCoreCLI@2
-            inputs:
-              command: 'push'
-              packagesToPush: '$(Build.ArtifactStagingDirectory)/src/bin/Release/*.nupkg'
-              nuGetFeedType: 'external'
-              publishFeedCredentials: 'Mobsites Nuget'
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    configuration: --configuration $(configuration)
+    projects: $(projectPath)
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: 'push'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'Mobsites Nuget'

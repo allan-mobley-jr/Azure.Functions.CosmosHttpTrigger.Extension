@@ -58,4 +58,3 @@ stages:
               nuGetFeedType: external
               publishFeedCredentials: Mobsites Nuget
               allowPackageConflicts: true
-

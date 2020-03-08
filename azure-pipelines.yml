@@ -24,6 +24,6 @@ steps:
   displayName: Publish
   inputs:
     command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/src/bin/Release/*.nupkg'
+    packagesToPush: 'src/bin/Release/*.nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'Mobsites Nuget'

@@ -34,7 +34,7 @@ steps:
   displayName: Push
   inputs:
     command: push
-    packagesToPush: src/bin/Release/*.nupkg
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: external
     publishFeedCredentials: Mobsites Nuget
     allowPackageConflicts: true

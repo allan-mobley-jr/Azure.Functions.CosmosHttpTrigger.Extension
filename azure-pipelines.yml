@@ -34,6 +34,6 @@ stages:
           - task: DotNetCoreCLI@2
             inputs:
               command: 'push'
-              packagesToPush: '$(Build.ArtifactStagingDirectory)/src/bin/Release/*.nupkg'
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/s/src/bin/Release/*.nupkg'
               nuGetFeedType: 'external'
               publishFeedCredentials: 'Mobsites Nuget'

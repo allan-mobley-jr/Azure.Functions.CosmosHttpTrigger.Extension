@@ -25,20 +25,37 @@ stages:
             displayName: Build
             inputs:
               command: build
-              configuration: $(configuration)
+              configuration: --configuration $(configuration)
               projects: $(projectPath)
 
-  - stage: Publish
-    displayName: Publish Stage
+  - stage: Pack
+    displayName: Pack Stage
     dependsOn: Build
     jobs:
-      - job: Publish
-        displayName: Publish
+      - job: Pack
+        displayName: Pack
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: Pack
+            inputs:
+              command: pack
+              arguments: --configuration $(configuration)
+              packagesToPack: $(projectPath)
+              nobuild: true
+
+  - stage: Push
+    displayName: Push Stage
+    dependsOn: Pack
+    jobs:
+      - job: Push
+        displayName: Push
         steps:
           - task: NuGetCommand@2
+            displayName: Push
             inputs:
-              command: 'push'
-              packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-              nuGetFeedType: 'external'
-              publishFeedCredentials: 'Mobsites Nuget'
+              command: push
+              packagesToPush: src/bin/Release/*.nupkg
+              nuGetFeedType: external
+              publishFeedCredentials: Mobsites Nuget
+              allowPackageConflicts: true
 

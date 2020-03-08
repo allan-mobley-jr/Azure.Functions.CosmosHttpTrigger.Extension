@@ -9,7 +9,7 @@
     <Copyright>© 2020 Mobsites</Copyright>
     <Description>Stream data to and from Azure Cosmos using this http trigger extension for Azure Functions.</Description>
     <PackageId>Mobsites.Azure.Functions.CosmosHttpTrigger.Extension</PackageId>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>mobsites-logo.png</PackageIcon>
     <PackageIconUrl />
